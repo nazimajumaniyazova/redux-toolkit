@@ -52,11 +52,12 @@ body {
 }
 .head {
   color: white;
-  margin: 1em auto;
+  margin: 0.8em auto;
 }
 .container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .flex_c {
   width: 50%;
@@ -198,4 +199,11 @@ input[type='text'].editing-active {
 }
 .edit {
   display: none;
+}
+
+.info-block {
+  color: #fff;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  text-align: center;
 }
