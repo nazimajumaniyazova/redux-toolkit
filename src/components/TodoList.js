@@ -1,33 +1,48 @@
 import { useSelector } from 'react-redux';
 import TodoItem from './TodoItem';
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
+import { reoderTodo } from '../store/todoSlice';
 function TodoList() {
   const todos = useSelector((state) => state.todos.todos);
-  // const handleDelete = (event) => {
-  //   const target = event.target;
-  //   const targetParent = event.target.closest('.tasks');
-  //   const targetId = targetParent.getAttribute('data-id');
-  //   if (target.classList.contains('trashIcon')) {
-  //     dispatch(deleteTodo(targetParent.getAttribute('data-id')));
-  //   } else if (target.classList.contains('doneIcon')) {
-  //     dispatch(toggleTodo(targetId));
-  //   } else if (target.classList.contains('editIcon')) {
-  //     //dispatch(editTodo(targetId));
-  //     setIsediting(true);
-  //   }
-  // };
+
+  const dispatch = useDispatch();
+  const handleDragDrop = (results) => {
+    const { source, destination, type } = results;
+    if (!destination) return;
+    if (source.index === destination.index) return;
+    if (type === 'group') {
+      const reorderedTodos = [...todos];
+      const sourceIndex = source.index;
+      const destinationIndex = destination.index;
+      const [removedTodo] = reorderedTodos.splice(sourceIndex, 1);
+      reorderedTodos.splice(destinationIndex, 0, removedTodo);
+      dispatch(reoderTodo(reorderedTodos));
+    }
+  };
   return (
-    <div id='result'>
-      {todos.map((todo, index) => (
-        <TodoItem
-          text={todo.text}
-          key={todo.id}
-          order={++index}
-          id={todo.id}
-          completed={todo.completed}
-        ></TodoItem>
-      ))}
-    </div>
+    <DragDropContext onDragEnd={handleDragDrop}>
+      <Droppable droppableId='ROOT' type='group'>
+        {(provided) => (
+          <div id='result' {...provided.droppableProps} ref={provided.innerRef}>
+            {todos.map((todo, index) => (
+              <Draggable draggableId={todo.id} index={index} key={todo.id}>
+                {(provided) => (
+                  <div
+                    {...provided.dragHandleProps}
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                  >
+                    <TodoItem {...todo} />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 }
 

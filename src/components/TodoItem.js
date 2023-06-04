@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteTodo, editTodo, toggleTodo } from '../store/todoSlice';
 
-function TodoItem({ text, order, id, completed }) {
+function TodoItem({ text, id, completed }) {
   const [isEditing, setIsediting] = useState(false);
   const [editValue, setEditValue] = useState(text);
   const dispatch = useDispatch();
+
   const handleEdit = () => {
     setIsediting(true);
   };
@@ -17,13 +18,15 @@ function TodoItem({ text, order, id, completed }) {
     setEditValue(text);
     setIsediting(false);
   };
+
   return (
-    <p
+    <div
       className='tasks'
       data-id={id}
-      style={{ backgroundColor: completed ? 'rgba(255, 255, 255, 0.1)' : '' }}
+      style={{
+        backgroundColor: completed ? 'rgba(255, 255, 255, 0.1)' : '',
+      }}
     >
-      <span className='order'>{order}.</span>
       <label
         style={{
           textDecoration: completed ? 'line-through' : '',
@@ -64,7 +67,7 @@ function TodoItem({ text, order, id, completed }) {
           ></span>
         </span>
       </span>
-    </p>
+    </div>
   );
 }
 

@@ -27,8 +27,12 @@ const todoSlice = createSlice({
       );
       editedTodo.text = action.payload.editValue;
     },
+    reoderTodo(state, action) {
+      state.todos = action.payload;
+    },
   },
 });
 
 export const todoReducer = todoSlice.reducer;
-export const { addTodo, deleteTodo, toggleTodo, editTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, toggleTodo, editTodo, reoderTodo } =
+  todoSlice.actions;

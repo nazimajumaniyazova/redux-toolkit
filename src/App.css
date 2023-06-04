@@ -141,12 +141,14 @@ input[type='text'] {
 .tasks {
   background: rgba(255, 255, 255, 0.3);
   padding: 0.5em;
+  padding-left: 1rem;
   border-radius: 3px;
   color: white;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: 0;
+  /* cursor: move; */
 }
 .options {
   position: absolute;
