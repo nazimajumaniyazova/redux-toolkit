@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { reoderTodo } from '../store/todoSlice';
 function TodoList() {
   const todos = useSelector((state) => state.todos.todos);
-
   const dispatch = useDispatch();
+
   const handleDragDrop = (results) => {
     const { source, destination, type } = results;
     if (!destination) return;
@@ -20,6 +20,7 @@ function TodoList() {
       dispatch(reoderTodo(reorderedTodos));
     }
   };
+
   return (
     <DragDropContext onDragEnd={handleDragDrop}>
       <Droppable droppableId='ROOT' type='group'>
