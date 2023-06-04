@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../store/todoSlice';
 
@@ -10,7 +10,21 @@ function AddTodoForm() {
       dispatch(addTodo(todoText));
       setTodoText('');
     }
+    return;
   };
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleAdd();
+        console.log('been here');
+      }
+    };
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  });
   return (
     <>
       <input
