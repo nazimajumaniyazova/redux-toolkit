@@ -17,6 +17,10 @@ body {
   -moz-animation: Gradient 29s ease infinite;
   animation: Gradient 29s ease infinite;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 @-webkit-keyframes Gradient {
   0% {
     background-position: 0% 50%;
@@ -52,11 +56,12 @@ body {
 }
 .head {
   color: white;
-  margin: 0.8em auto;
 }
 .container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   padding-bottom: 20px;
 }
@@ -207,4 +212,28 @@ input[type='text'].editing-active {
   opacity: 0.8;
   margin-bottom: 1rem;
   text-align: center;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1rem;
+  width: 100%;
+  padding: 2rem 0;
+  > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    color: #fff;
+    margin-left: -12px;
+    > li {
+      cursor: pointer;
+    }
+  }
+}
+a.active {
+  border-bottom: 1px solid #fff;
 }
