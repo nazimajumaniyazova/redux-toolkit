@@ -19,6 +19,7 @@ function AsyncTodoItem({ id, completed, title }) {
       }}
     >
       <span
+        className='async todo-text'
         style={{
           textDecoration: completed ? 'line-through' : '',
         }}

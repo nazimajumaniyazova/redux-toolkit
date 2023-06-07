@@ -241,3 +241,14 @@ a.active {
 .fa-3x {
   font-size: inherit !important;
 }
+
+.todo-text,
+.async .todo-text {
+  max-width: 95%;
+  display: inline-block;
+  white-space: break-spaces;
+  overflow: hidden;
+}
+.todo-text {
+  max-width: 88%;
+}

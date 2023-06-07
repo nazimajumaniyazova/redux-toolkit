@@ -27,14 +27,15 @@ function TodoItem({ text, id, completed }) {
         backgroundColor: completed ? 'rgba(255, 255, 255, 0.1)' : '',
       }}
     >
-      <label
+      <span
+        className='todo-text'
         style={{
           textDecoration: completed ? 'line-through' : '',
           display: isEditing ? 'none' : '',
         }}
       >
         {text}
-      </label>
+      </span>
       <input
         type='text'
         className={isEditing ? 'editing-active' : 'edit'}
