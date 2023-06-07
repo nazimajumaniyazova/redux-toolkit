@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+
 import { deleteTodo } from '../store/asyncTodoSlice';
-function AsyncTodoItem({ id, completed, title, isDeleting }) {
-  //const { isDeleting } = useSelector((state) => state.asyncTodos);
+function AsyncTodoItem({ id, completed, title }) {
+  const [isDeleting, setIsDeleting] = useState(false);
   const dispatch = useDispatch();
+  const handleDelete = async (id) => {
+    setIsDeleting(true);
+    await dispatch(deleteTodo({ id })).unwrap();
+    setIsDeleting(false);
+  };
+
   return (
     <div
       className='tasks'
@@ -22,7 +28,7 @@ function AsyncTodoItem({ id, completed, title, isDeleting }) {
       <span className='options fa-3x'>
         <span
           className={`fas trashIcon ${isDeleting || 'fa-trash-alt'}`}
-          onClick={() => dispatch(deleteTodo({ id }))}
+          onClick={() => handleDelete(id)}
         >
           {isDeleting && <i className='fas fa-spinner fa-spin'></i>}
         </span>

@@ -28,7 +28,7 @@ export const deleteTodo = createAsyncThunk(
         { method: 'DELETE' }
       );
       if (!respons.ok) {
-        throw new Error(`Can't nod delete todo. Try again`);
+        throw new Error(`Can't not delete todo. Try again`);
       }
       thunkAPI.dispatch(delteTodo(params.id));
     } catch (error) {
