@@ -6,15 +6,18 @@ export const fetchTodos = createAsyncThunk(
     thunkAPI.dispatch(emptyTodos());
     try {
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/todos?_limit=5`
+        `https://jsonplaceholder.typicode.com/todos?_page=${params.page}&_limit=5`
       );
+
       if (!response.ok) {
         throw new Error('Server Error');
       }
+      thunkAPI.dispatch(setTodosTotalAmount(200));
       const data = await response.json();
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
+    } finally {
     }
   }
 );
@@ -41,6 +44,7 @@ const initialState = {
   isLoading: false,
   error: null,
   isDeleting: false,
+  todosTotalAmount: null,
 };
 const asyncTodosSlice = createSlice({
   name: 'asyncTodos',
@@ -48,6 +52,9 @@ const asyncTodosSlice = createSlice({
   reducers: {
     emptyTodos(state, action) {
       state.asyncTodos = [];
+    },
+    setTodosTotalAmount(state, action) {
+      state.todosTotalAmount = action.payload;
     },
     delteTodo(state, action) {
       state.asyncTodos = state.asyncTodos.filter(
@@ -79,6 +86,6 @@ const asyncTodosSlice = createSlice({
   },
 });
 
-const { emptyTodos, delteTodo } = asyncTodosSlice.actions;
+const { emptyTodos, delteTodo, setTodosTotalAmount } = asyncTodosSlice.actions;
 
 export const asyncTodos = asyncTodosSlice.reducer;

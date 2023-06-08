@@ -24,7 +24,7 @@ function AsyncTodoItem({ id, completed, title }) {
           textDecoration: completed ? 'line-through' : '',
         }}
       >
-        {title}
+        {id}. {title}
       </span>
       <span className='options fa-3x'>
         <span

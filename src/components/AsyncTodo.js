@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchTodos } from '../store/asyncTodoSlice';
 import AsyncTodoItem from './AsyncTodoItem';
+import Pagination from './Pagination';
 
 function AsyncTodo() {
   const { asyncTodos, isLoading, error, isDeleting } = useSelector(
@@ -10,8 +11,9 @@ function AsyncTodo() {
   );
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchTodos());
+    dispatch(fetchTodos({ page: 1 }));
   }, [dispatch]);
 
   return (
@@ -29,6 +31,7 @@ function AsyncTodo() {
           <AsyncTodoItem key={todo.id} {...todo} isDeleting={isDeleting} />
         ))}
       </div>
+      <Pagination />
     </div>
   );
 }
