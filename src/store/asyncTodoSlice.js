@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchTodos = createAsyncThunk(
   'todos/fetchTodo',
-  async function (params, thunkAPI) {
+  async function ({ page, limit = 5 }, thunkAPI) {
     thunkAPI.dispatch(emptyTodos());
     try {
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/todos?_page=${params.page}&_limit=5`
+        `https://jsonplaceholder.typicode.com/todos?_page=${page}&_limit=${limit}`
       );
 
       if (!response.ok) {
@@ -39,12 +39,35 @@ export const deleteTodo = createAsyncThunk(
     }
   }
 );
+
+export const fetchInfiniteTodo = createAsyncThunk(
+  'todos/fetchInfiniteTodo',
+  async function ({ page, limit = 5 }, thunkAPI) {
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/todos?_page=${page}&_limit=${limit}`
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+      thunkAPI.dispatch(setTodosTotalAmount(200));
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+    }
+  }
+);
 const initialState = {
   asyncTodos: [],
   isLoading: false,
   error: null,
   isDeleting: false,
   todosTotalAmount: null,
+  infiniteTodos: [],
+  infiniteTodosIsLodaing: false,
 };
 const asyncTodosSlice = createSlice({
   name: 'asyncTodos',
@@ -82,6 +105,13 @@ const asyncTodosSlice = createSlice({
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
         state.isDeleting = false;
+      })
+      .addCase(fetchInfiniteTodo.fulfilled, (state, action) => {
+        state.infiniteTodos.push(...action.payload);
+        state.infiniteTodosIsLodaing = false;
+      })
+      .addCase(fetchInfiniteTodo.pending, (state, action) => {
+        state.infiniteTodosIsLodaing = true;
       });
   },
 });

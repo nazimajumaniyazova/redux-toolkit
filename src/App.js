@@ -6,6 +6,8 @@ import AddTodoForm from './components/addTodoRofm';
 import SimpleTodo from './components/SimpleTodo';
 import AsyncTodo from './components/AsyncTodo';
 import Navigation from './components/Navigation';
+import InfiniteScroll from './components/InfiniteScroll';
+import NumericPagination from './components/NumericPagination';
 
 function App() {
   return (
@@ -20,7 +22,10 @@ function App() {
 
         <Routes>
           <Route path='/' element={<SimpleTodo />}></Route>
-          <Route path='/async' element={<AsyncTodo />}></Route>
+          <Route path='/async' element={<AsyncTodo />}>
+            <Route index path='numeric' element={<NumericPagination />} />
+            <Route path='infinite' element={<InfiniteScroll />} />
+          </Route>
         </Routes>
       </div>
     </div>
